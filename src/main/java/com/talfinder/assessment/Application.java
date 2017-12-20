@@ -1,5 +1,6 @@
 package com.talfinder.assessment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -11,15 +12,16 @@ public class Application {
    * @param args
    *
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
-    Utility.println("Welcome to GalaxyMerchant ! please provide input below and a blank new line to finish input");
+    Utility.println("\nWelcome to GalaxyMerchant !");
+    Utility.println("-----------------------------\n");
 
     // Initialize a new paragraph
     Paragraph paragraph = new Paragraph();
 
     // Read the input from console, validate and process
-    ArrayList<String> output=paragraph.read();
+    ArrayList<String> output=paragraph.read(null);
 
     for(int i=0;i<output.size();i++)
     {

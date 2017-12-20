@@ -1,15 +1,18 @@
 package com.talfinder.assessment;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.Stack;
 
 /**
  * Created by hbhargav on 20/12/17.
  */
 public class Paragraph {
-  private Scanner scan;
   private ConversationLine conversationLine;
   private ErrorMessage eMessage;
   /**
@@ -33,7 +36,6 @@ public class Paragraph {
 
   public Paragraph()
   {
-    this.scan = new Scanner(System.in);
     this.conversationLine = new ConversationLine();
     this.eMessage = new ErrorMessage();
     this.constantAssignments = new HashMap<String, String>();
@@ -42,27 +44,22 @@ public class Paragraph {
   }
 
 
-
-
-
-
-  /**
-   * <p>This method reads the paragraph from the input console.<br>
-   * The input sequence can be terminated by a blank new line.<br>
-   * Each input entered will be processed same time and if it contains any formatting error message will be shown immediately<br>
-   * <b>Ex:</b> saket is 78 , error message : <i>Input format is wrong ! input discarded</i>
-   * </p>
-   * @return output ArrayList<String>
-   * <p>Use this returned ArrayList<String> object to print the results for the question asked in the input.
-   */
-  public ArrayList<String> read()
-  {
+  public ArrayList<String> read(String filePath) throws IOException {
     String line;
     int count=0;
     ErrorCodes error = null;
+    BufferedReader bufferedReader = null;
 
+    if (filePath == null){
+      InputStream in = getClass().getClassLoader().getResourceAsStream("input.txt");
+      bufferedReader =new BufferedReader(new InputStreamReader(in));
+    }
+    else{
+      FileReader fileReader = new FileReader(filePath);
+      bufferedReader = new BufferedReader(fileReader);
+    }
 
-    while(this.scan.hasNextLine() && (line = this.scan.nextLine()).length()>0 )
+    while((line = bufferedReader.readLine()) != null )
     {
       error = validate(line);
 
@@ -84,7 +81,7 @@ public class Paragraph {
 
       default :
     }
-
+    bufferedReader.close();
     return this.output;
 
   }

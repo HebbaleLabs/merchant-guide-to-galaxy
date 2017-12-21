@@ -1,7 +1,7 @@
 package com.talfinder.assessment;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -44,19 +44,19 @@ public class Paragraph {
   }
 
 
-  public ArrayList<String> read(String filePath) throws IOException {
+  public ArrayList<String> read(StringBuilder input) throws IOException {
     String line;
     int count=0;
     ErrorCodes error = null;
     BufferedReader bufferedReader = null;
 
-    if (filePath == null){
+    if (input == null){
       InputStream in = getClass().getClassLoader().getResourceAsStream("input.txt");
       bufferedReader =new BufferedReader(new InputStreamReader(in));
     }
     else{
-      FileReader fileReader = new FileReader(filePath);
-      bufferedReader = new BufferedReader(fileReader);
+        InputStream in = new ByteArrayInputStream(input.toString().getBytes());
+        bufferedReader = new BufferedReader(new InputStreamReader(in));
     }
 
     while((line = bufferedReader.readLine()) != null )
